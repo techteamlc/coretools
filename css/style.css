@@ -1,0 +1,33 @@
+input[type=text]:focus {
+    border: 3px solid #555;
+}
+
+input[type=text],
+input[type=password],
+input[type=submit],
+select {
+    width: 100%;
+}
+
+select {
+    padding: 6px 6px;
+    border: 1px solid #555;
+    border-radius: 1px;
+    background-color: #f1f1f1;
+}
+
+i {
+    align-items: center; 
+    display: none;
+}
+
+.icons {
+    display: table;
+    margin: 0 auto;
+}
+.icons i {
+    display: none;
+}
+body.loading .icons i.fa-refresh { display: block; }
+body.success .icons i.fa-check { display: block; }
+body.error .icons i.fa-times { display: block; }
