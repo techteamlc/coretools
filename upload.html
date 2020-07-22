@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Image Uploader</title>
+    </head>
+    <body>
+        <form enctype="multipart/form-data">
+            <label for="">
+                <input type="checkbox" name="keep" value="true"> keep
+            </label>
+            <label for="">
+                <input type="checkbox" name="replace" value="true"> replace
+            </label>
+            <input type="file" id="upload" multiple/>
+            <img id="img" style="width: 100px" />
+            <button>Enviar</button>
+        </form>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
+        <script>
+            $(function(){
+                $('#upload').change(function() {
+                    let files = $(this)[0].files,
+                        keep = $('[name="keep"]:checked').val(),
+                        replace = $('[name="replace"]:checked').val();
+                        
+                    console.log(files.length);
+
+                    $.each(files, function(k, i) {
+                        console.log(i);
+
+                        const fileReader = new FileReader();                        
+
+                        let file = files[k];
+
+                        fileReader.onloadend = function(){
+                            $('body').append(`<img src="${fileReader.result}" />`);    
+                            $.ajax({
+                                url: '/sendupload.php',
+                                type: 'post',
+                                data: {
+                                    replace: replace,
+                                    keep: keep,
+                                    name: i.name,
+                                    type: i.type,
+                                    size: i.size,
+                                    base64: fileReader.result
+                                }
+                            });
+                        }
+                        fileReader.readAsDataURL(file)
+                    });
+                })
+            })
+        </script>
+    </body>
+</html>
