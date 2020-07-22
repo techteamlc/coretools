@@ -1,6 +1,14 @@
 <html>
     <head>
         <title>Image Uploader</title>
+        <style>
+            .success {
+                color: green;
+            }
+            .error {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <form enctype="multipart/form-data">
@@ -14,6 +22,10 @@
             <img id="img" style="width: 100px" />
             <button>Enviar</button>
         </form>
+
+        <div id="photos">
+            
+        </div>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
         <script>
@@ -33,7 +45,9 @@
                         let file = files[k];
 
                         fileReader.onloadend = function(){
-                            $('body').append(`<img src="${fileReader.result}" />`);    
+                            $('body').append(`<img src="${fileReader.result}" />`);
+                            $('#photos').append(`<div class="${i.name.replace('.', '')}">${i.name}<div>`);
+
                             $.ajax({
                                 url: '/sendupload.php',
                                 type: 'post',
@@ -45,6 +59,11 @@
                                     size: i.size,
                                     base64: fileReader.result
                                 }
+                            }).done(function(response) {
+                                
+                                $(`div.${response.name.replace('.', '')}`).addClass('success');
+                            }).fail(function() {
+                                $(`div.${response.name.replace('.', '')}`).addClass('error');
                             });
                         }
                         fileReader.readAsDataURL(file)
