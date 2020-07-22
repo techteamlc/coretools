@@ -49,7 +49,7 @@
                             $('#photos').append(`<div class="${i.name.replace('.', '')}">${i.name}<div>`);
 
                             $.ajax({
-                                url: '/sendupload.php',
+                                url: './sendupload.php',
                                 type: 'post',
                                 data: {
                                     replace: replace,
