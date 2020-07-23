@@ -13,7 +13,7 @@ if (isset($_POST['replace']) && !empty($_POST['replace'])) :
 	        ),
 	        'method'  => 'POST',
 	        'content' => ($data)
-	    )
+	    );
 	);
 	$context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
