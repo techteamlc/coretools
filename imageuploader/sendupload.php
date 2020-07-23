@@ -19,7 +19,7 @@ if (isset($_POST['replace']) && !empty($_POST['replace'])) :
 	$result = file_get_contents($url, false, $context);
 
 endif;
-
+var_dump($data);
 //print_r($_POST);
 sleep(rand(1,5));
 echo json_encode(array(
