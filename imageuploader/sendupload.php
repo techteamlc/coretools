@@ -16,13 +16,16 @@ if (isset($_POST['replace']) && !empty($_POST['replace'])) :
 	    )
 	);
 	$context  = stream_context_create($options);
-	$result = file_get_contents($url, false, $context);
+    $result = file_get_contents($url, false, $context);
+    
+
+echo $json = json_decode($result,JSON_PRETTY_PRINT);
 
 endif;
 var_dump($data);
 //print_r($_POST);
-sleep(rand(1,5));
-echo json_encode(array(
-    'status' => true,
-    'name' => $_POST['name']
-));
+//sleep(rand(1,5));
+//echo json_encode(array(
+//    'status' => true,
+//    'name' => $_POST['name']
+//));
