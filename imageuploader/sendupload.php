@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 if (isset($_POST['replace']) && !empty($_POST['replace'])) :
     //echo 'replace';
     $url = 'https://image.uploader:123@helpdesk.layer.core.dcg.com.br/v1/Hub/API.svc/web/SaveCatalogMedia'
-    $data = '{"ProductID": "'.$_POST['i.name'].'", "IntegrationID": null, },"Image": { "EncodedBase64File": {"FileName": "'.$_POST['i.name'].'", "ContentFileEncodedBase64": "'.$_POST['i.base64'].'", "ContentType": "'.$_POST['i.type'].'"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
+    //$data = '{"ProductID": "'.$_POST['i.name'].'", "IntegrationID": null, },"Image": { "EncodedBase64File": {"FileName": "'.$_POST['i.name'].'", "ContentFileEncodedBase64": "'.$_POST['i.base64'].'", "ContentType": "'.$_POST['i.type'].'"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
     $options = array(
 	    'http' => array(
 	    	'header' => array( 
