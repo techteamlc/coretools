@@ -29,3 +29,5 @@ endif;
 //    'status' => true,
 //    'name' => $_POST['name']
 //));
+
+?>
