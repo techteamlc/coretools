@@ -1,5 +1,5 @@
 <?php 
-header('Content-Type: application/json');
+/*  header('Content-Type: application/json');
 
 if (isset($_POST['replace']) && !empty($_POST['replace'])) :
     //echo 'replace';
