@@ -15,8 +15,8 @@ $b64auth = base64_encode($login ':' $pass)
 	            'Accept: application/json', 
 	            'Content-Type: application/json'
 	        ),
-	        'method'  => 'POST',
-	        'content' => ($data)
+	        'method'  => 'POST'
+	        
 	    )
 	);
 	$context  = stream_context_create($options);
