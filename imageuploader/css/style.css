@@ -1,0 +1,64 @@
+body {
+    font-family: 'Dosis', sans-serif;
+    font-size: 14px; }
+    body .row {
+      display: flex;
+      flex-direction: row; }
+      body .row .col.col-form {
+        flex: 0 0 500px;
+        max-width: 500px;
+        margin-right: 20px; }
+    body .box {
+      margin-bottom: 20px;
+      border: 1px solid #EEE;
+      padding: 10px; }
+      body .box > strong {
+        display: block;
+        padding-bottom: 5px;
+        text-transform: uppercase; }
+      body .box small {
+        color: #999; }
+      body .box.box-photos {
+        border-style: dashed;
+        padding: 40px; }
+    body label {
+      display: block; }
+    body button {
+      background-color: #411E5A;
+      border: 1px solid white;
+      color: white;
+      padding: 10px 20px;
+      font-family: 'Dosis', sans-serif;
+      text-transform: uppercase; }
+    body input[type="radio"],
+    body input[type="checkbox"] {
+      vertical-align: top; }
+    body #photos div {
+      padding: 5px 5px 5px 20px;
+      position: relative; }
+      body #photos div:not(:last-child) {
+        border-bottom: 1px solid #f2f2f2; }
+      body #photos div .spinner {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        margin-top: 2px;
+        visibility: hidden; }
+      body #photos div.loading .spinner {
+        visibility: visible; }
+    body .success {
+      color: green; }
+    body .error {
+      color: red; }
+    body .spinner {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #411E5A;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      animation: spin 1s linear infinite; }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg); } }
+  

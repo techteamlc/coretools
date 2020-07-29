@@ -1,74 +1,138 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Image Uploader</title>
-        <style>
-            .success {
-                color: green;
-            }
-            .error {
-                color: red;
-            }
-        </style>
+        <link href="https://fonts.googleapis.com/css2?family=Dosis&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./css/style.css">
     </head>
     <body>
-        <form enctype="multipart/form-data">
-            <label for="">
-                <input type="checkbox" name="keep" value="true"> keep
-            </label>
-            <label for="">
-                <input type="checkbox" name="replace" value="true"> replace
-            </label>
-            <input type="file" id="upload" multiple/>
-            <img id="img" style="width: 100px" />
-            <button>Enviar</button>
-        </form>
+        <div class="row">
+            <div class="col col-form">
+                <form enctype="multipart/form-data">
+                    <input type="hidden" name="tentant" value="" />
+                    <div class="box">
+                        <strong>Campo:</strong>
+                        <label>
+                            <input type="radio" name="field" value="ProductID" /> ProductID <small>código do produto Linx Commerce</small>
+                        </label>
+                        <label>
+                            <input type="radio" name="field" value="IntegrationID" /> IntegrationID
+                        </label>
+                        <label>
+                            <input type="radio" name="field" value="SkuID" /> SkuID
+                        </label>
+                    </div>
 
-        <div id="photos">
-            
+                    <div class="box">
+                        <strong>Separador:</strong>
+                        <label>
+                            <input type="radio" name="separator" value="_" /> underline <small>ex.: 903123_1.jpg</small>
+                        </label>
+                        <label>
+                            <input type="radio" name="separator" value="-" /> hífen <small>ex.: 903123-1.jpg</small>
+                        </label>
+                        <label>
+                            <input type="radio" name="separator" value="|" /> Pipe <small>ex.: 903123|1.jpg</small>
+                        </label>
+                        <label>
+                            <input type="radio" name="separator" value="" /> sem separador <small>ex.: 903123.jpg</small>
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label for="">
+                            <input type="checkbox" name="keep" value="true"> keep
+                        </label>
+                        <label for="">
+                            <input type="checkbox" name="replace" value="true"> replace
+                        </label>
+                    </div>
+
+                    <div class="box">
+                        <strong>Imagens:</strong>
+                        <input type="file" id="upload" multiple/>
+                    </div>
+                    <!--<img id="img" style="width: 100px" />-->
+                    <div>
+                        <button>Enviar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col col-photos">
+                <div class="box box-photos">
+                    <strong>Lista de imagens para upload</strong>
+                    <div id="photos">
+                        <small class="empty">selecione as imagens que deseja fazer o upload</small>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
         <script>
-            $(function(){
+            var slugify = function(text) {
+                return text
+                    .toLowerCase()
+                    .replace(/ /g,'-')
+                    .replace(/[^\w-]+/g,'');
+            };
+            
+            $(function() {
                 $('#upload').change(function() {
-                    let files = $(this)[0].files,
-                        keep = $('[name="keep"]:checked').val(),
-                        replace = $('[name="replace"]:checked').val();
-                        
-                    console.log(files.length);
-
+                    $('#photos').empty();
+                    let files = $('#upload')[0].files;
                     $.each(files, function(k, i) {
-                        console.log(i);
+                        let file = files[k];
+                        $('#photos').append(`<div class="${slugify(i.name)}"><span class="spinner"></span>${i.name}</div>`);
+                    });
+                });
+
+                $('form').on('submit', function(e) {
+                    e.preventDefault();
+                   
+                    let files = $('#upload')[0].files,
+                        keep = $('[name="keep"]:checked').val(),
+                        replace = $('[name="replace"]:checked').val(),
+                        field = $('[name="field"]:checked').val();
+                        separator = $('[name="separator"]:checked').val();
+
+                    let data = $('form').serialize();
+                        
+                    $.each(files, function(k, i) {
 
                         const fileReader = new FileReader();                        
 
                         let file = files[k];
 
                         fileReader.onloadend = function(){
-                            $('body').append(`<img src="${fileReader.result}" />`);
-                            $('#photos').append(`<div class="${i.name.replace('.', '')}">${i.name}<div>`);
+                            let name = slugify(i.name);
 
                             $.ajax({
                                 url: './sendupload.php',
                                 type: 'post',
                                 data: {
+                                    field: field,
+                                    separator: separator,
                                     replace: replace,
                                     keep: keep,
-                                    name: i.name,
+                                    name: name,
                                     type: i.type,
                                     size: i.size,
                                     base64: fileReader.result
+                                },
+                                beforeSend: () => {
+                                    $(`div.${name}`).addClass('loading');
                                 }
-                            }).done(function(response) {
-                                
-                                $(`div.${response.name.replace('.', '')}`).addClass('success');
-                            }).fail(function() {
-                                $(`div.${response.name.replace('.', '')}`).addClass('error');
+                            }).done( (response) => {
+                                $(`div.${response.name}`).addClass('success');
+                            }).fail( (error) => {
+                                $(`div.${error.name}`).addClass('error');
+                            }).always( () => {
+                                $(`div.${name}`).removeClass('loading');
                             });
                         }
                         fileReader.readAsDataURL(file)
                     });
-                })
+                });
             })
         </script>
     </body>
