@@ -1,14 +1,35 @@
 body {
     font-family: 'Dosis', sans-serif;
-    font-size: 14px; }
+    font-size: 14px;
+    background-color: #FAFAFA; }
+    body h1 {
+      border-bottom: 1px dashed #f2f2f2;
+      padding-bottom: 10px;
+      position: relative;
+      color: #411E5A;
+      text-align: center; }
+      body h1 small {
+        position: relative;
+        top: -12px;
+        margin-left: 0px;
+        font-size: 8px;
+        text-transform: uppercase;
+        display: inline-block;
+        padding: 0px 6px;
+        line-height: 12px;
+        height: 12px;
+        background-color: #FFB914; }
     body .row {
       display: flex;
-      flex-direction: row; }
+      flex-direction: row;
+      justify-content: center; }
       body .row .col.col-form {
         flex: 0 0 500px;
         max-width: 500px;
         margin-right: 20px; }
     body .box {
+      background-color: white;
+      box-shadow: 0px 10px 20px -5px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
       border: 1px solid #EEE;
       padding: 10px; }
@@ -22,14 +43,17 @@ body {
         border-style: dashed;
         padding: 40px; }
     body label {
-      display: block; }
+      display: block;
+      margin: 5px 0; }
     body button {
       background-color: #411E5A;
       border: 1px solid white;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 40px;
       font-family: 'Dosis', sans-serif;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      display: table;
+      margin: 0 auto; }
     body input[type="radio"],
     body input[type="checkbox"] {
       vertical-align: top; }
