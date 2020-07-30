@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 $login = $_POST['login'];
 $pass = $_POST['pass'];
-$b64auth = base64_encode($login ':' $pass)
+$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
 
  if (isset($_POST)) :
    
@@ -11,7 +11,7 @@ $b64auth = base64_encode($login ':' $pass)
 	$options = array(
 	    'http' => array(
 	    	'header' => array( 
-	            'Authorization: Basic ' $b64auth,
+				'Authorization: Basic ' . $b64auth,
 	            'Accept: application/json', 
 	            'Content-Type: application/json'
 	        ),
@@ -20,7 +20,7 @@ $b64auth = base64_encode($login ':' $pass)
 	    )
 	);
 	$context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
+    $result = @file_get_contents($url, false, $context);
     $json = json_decode($result,JSON_PRETTY_PRINT);
 
 

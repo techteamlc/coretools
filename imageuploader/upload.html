@@ -5,68 +5,88 @@
         <link href="https://fonts.googleapis.com/css2?family=Dosis&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./css/style.css">
     </head>
-    <body>
-        <h1>ImageUploader V2 <small>beta</small></h1>
-        <div class="row">
-            <div class="col col-form">
-                <form enctype="multipart/form-data">
-                    <input type="hidden" name="tentant" value="" />
-                    <div class="box">
-                        <strong>Campo:</strong>
-                        <label>
-                            <input type="radio" name="field" value="ProductID" /> ProductID <small>código do produto Linx Commerce</small>
-                        </label>
-                        <label>
-                            <input type="radio" name="field" value="IntegrationID" /> IntegrationID
-                        </label>
-                        <label>
-                            <input type="radio" name="field" value="SkuID" /> SkuID
-                        </label>
-                    </div>
+    <body class="no-auth">
+        <div id="content">
+            <h1>ImageUploader V2 <small>beta</small></h1>
+            <div class="row">
+                <div class="col col-form">
+                    <form id="formUpload" enctype="multipart/form-data">
+                        <input type="hidden" name="tentant" value="" />
+                        <input type="hidden" name="user" value="" />
+                        <input type="hidden" name="pass" value="" />
+                        <div class="box">
+                            <strong>Campo:</strong>
+                            <label>
+                                <input type="radio" name="field" value="ProductID" /> ProductID <small>código do produto Linx Commerce</small>
+                            </label>
+                            <label>
+                                <input type="radio" name="field" value="IntegrationID" /> IntegrationID
+                            </label>
+                            <label>
+                                <input type="radio" name="field" value="SkuID" /> SkuID
+                            </label>
+                        </div>
 
-                    <div class="box">
-                        <strong>Separador:</strong>
-                        <label>
-                            <input type="radio" name="separator" value="_" /> underline <small>ex.: 903123_1.jpg</small>
-                        </label>
-                        <label>
-                            <input type="radio" name="separator" value="-" /> hífen <small>ex.: 903123-1.jpg</small>
-                        </label>
-                        <label>
-                            <input type="radio" name="separator" value="|" /> Pipe <small>ex.: 903123|1.jpg</small>
-                        </label>
-                        <label>
-                            <input type="radio" name="separator" value="" /> sem separador <small>ex.: 903123.jpg</small>
-                        </label>
-                    </div>
-                    <div class="box">
-                        <strong>Configurações</strong>
-                        <label for="">
-                            <input type="checkbox" name="keep" value="true"> Manter apenas a media enviada
-                        </label>
-                        <label for="">
-                            <input type="checkbox" name="replace" value="true"> Substiuir a imagem caso a mesma já exista
-                        </label>
-                    </div>
+                        <div class="box">
+                            <strong>Separador:</strong>
+                            <label>
+                                <input type="radio" name="separator" value="_" /> underline <small>ex.: 903123_1.jpg</small>
+                            </label>
+                            <label>
+                                <input type="radio" name="separator" value="-" /> hífen <small>ex.: 903123-1.jpg</small>
+                            </label>
+                            <label>
+                                <input type="radio" name="separator" value="|" /> Pipe <small>ex.: 903123|1.jpg</small>
+                            </label>
+                            <label>
+                                <input type="radio" name="separator" value="" /> sem separador <small>ex.: 903123.jpg</small>
+                            </label>
+                        </div>
+                        <div class="box">
+                            <strong>Configurações</strong>
+                            <label for="">
+                                <input type="checkbox" name="keep" value="true"> Manter apenas a media enviada
+                            </label>
+                            <label for="">
+                                <input type="checkbox" name="replace" value="true"> Substiuir a imagem caso a mesma já exista
+                            </label>
+                        </div>
 
-                    <div class="box">
-                        <strong>Imagens:</strong>
-                        <input type="file" id="upload" multiple/>
-                    </div>
-                    <!--<img id="img" style="width: 100px" />-->
-                    <div>
-                        <button>Enviar</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col col-photos">
-                <div class="box box-photos">
-                    <strong>Lista de imagens para upload</strong>
-                    <div id="photos">
-                        <small class="empty">selecione as imagens que deseja fazer o upload</small>
+                        <div class="box">
+                            <strong>Imagens:</strong>
+                            <input type="file" id="upload" multiple/>
+                        </div>
+                        <!--<img id="img" style="width: 100px" />-->
+                        <div>
+                            <button>Enviar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col col-photos">
+                    <div class="box box-photos">
+                        <strong>Lista de imagens para upload</strong>
+                        <div id="photos">
+                            <small class="empty">selecione as imagens que deseja fazer o upload</small>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="login" class="box">
+            <form action="" id="formLogin">
+                <div class="input-wrapper">
+                    <input type="text" name="login" placeholder="Informe o usuário">
+                </div>
+                <div class="input-wrapper">
+                    <input type="password" name="pass" placeholder="Informe a senha">
+                </div>
+                <small class="callback"></small>
+                <div class="button-wrapper">
+                    <button>Acessar</button>
+                    <span class="spinner"></span>
+                </div>
+            </form>
         </div>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
@@ -88,7 +108,7 @@
                     });
                 });
 
-                $('form').on('submit', function(e) {
+                $('#formUpload').on('submit', function(e) {
                     e.preventDefault();
                    
                     let files = $('#upload')[0].files,
@@ -97,7 +117,7 @@
                         field = $('[name="field"]:checked').val();
                         separator = $('[name="separator"]:checked').val();
 
-                    let data = $('form').serialize();
+                    let data = $(this).serialize();
                         
                     $.each(files, function(k, i) {
 
@@ -112,6 +132,8 @@
                                 url: './sendupload.php',
                                 type: 'post',
                                 data: {
+                                    user: localStorage.getItem('_imgup_u'),
+                                    pass: localStorage.getItem('_imgup_p'),
                                     field: field,
                                     separator: separator,
                                     replace: replace,
@@ -135,7 +157,43 @@
                         fileReader.readAsDataURL(file)
                     });
                 });
-            })
+            
+                $('#formLogin').on('submit', function(e) {
+                    e.preventDefault();
+                    let data = $(this).serialize();
+                    $.ajax({
+                        url: './checkcredential.php',
+                        type: 'post',
+                        data: data,
+                        beforeSend: () => {
+                            $('#login').addClass('loading');
+                        }
+                    }).done( (response) => {
+                        if (response.response != null) {
+                            if (response.response.IsValid) {
+                                localStorage.setItem('_imgup_u', $('#formLogin [name="login"]').val());
+                                localStorage.setItem('_imgup_p', $('#formLogin [name="pass"]').val());
+                                $('#login').fadeOut( () => {
+                                    $('body').removeClass('no-auth');
+                                });
+                            }
+                        } else {
+                            $('#login').addClass('shake');
+                            $('#login .callback').html('Dados inválidos!');
+                            setTimeout( () => {
+                                $('#login').removeClass('shake');
+                            }, 300);
+                            setTimeout( () => {
+                                $('#login .callback').empty();
+                            }, 3000);
+                        }
+                    }).fail( (error) => {
+                        console.log('error', error);
+                    }).always( () => {
+                        $('#login').removeClass('loading');
+                    });
+                });
+            });
         </script>
     </body>
 </html>
