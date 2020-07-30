@@ -2,12 +2,82 @@
 header('Content-Type: application/json');
 
 $img = str_replace('data:image/jpeg;base64,','',$_POST['base64']);
+
+$replace = isset($_POST['replace']);
+$keep = isset($_POST['keep']);
+$separator = $_POST['separator'];
+$type1 = $_POST['type'];
+$type = str_replace('image/','',$type1);
+$name = str_replace($type,'',$_POST['name']);
+$idProduto = strstr($name, $separator, true);
+
+
+$field = $_POST['field']; 
+switch ($field){
+		case "ProductID":
+			$data = json_encode(
+						array (
+							'ProductID' => $idProduto,
+							'IntegrationID' => null,
+							'Image' => 
+							array (
+							'EncodedBase64File' => 
+							array (
+								'FileName' => $_POST['name'],
+								'ContentFileEncodedBase64' => $img,
+								'ContentType' => "$type",
+							),
+							),
+							'KeepOnlyMedia' => $keep,
+							'ReplaceExistingMedia' => $replace,
+						)
+					);
+		break;
+		case "IntegrationID":
+			$data =  json_encode(
+						array (
+							'ProductID' => 0,
+							'IntegrationID' => "$idProduto",
+							'Image' => 
+							array (
+							'EncodedBase64File' => 
+							array (
+								'FileName' => $_POST['name'],
+								'ContentFileEncodedBase64' => $img,
+								'ContentType' => "$type",
+							),
+							),
+							'KeepOnlyMedia' => $keep,
+							'ReplaceExistingMedia' => $replace,
+						)
+					);
+		break;			
+		case "SkuID":
+			$data =  json_encode(array(
+				array (
+					'ProductID' => 0,
+					'IntegrationID' => $_POST['name'],
+					'Image' => 
+					array (
+					'EncodedBase64File' => 
+					array (
+						'FileName' => $_POST['name'],
+						'ContentFileEncodedBase64' => $img,
+						'ContentType' => "$type",
+					),
+					),
+					'KeepOnlyMedia' => $keep,
+					'ReplaceExistingMedia' => $replace,
+				)
+			));
+	    break;
+} 
 //echo $img;
 
  if (isset($_POST)) :
    
     $url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
-    $data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
+    //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
 	    	'header' => array( 
@@ -25,11 +95,20 @@ $img = str_replace('data:image/jpeg;base64,','',$_POST['base64']);
 	//echo $options;   
 	$json = json_decode($result,JSON_PRETTY_PRINT);
 
+
 	echo json_encode(array(
-		'status' => true,
-		'name' => $_POST['name'],
-		'response' => $json
+		'Name' => $name,
+		'FileName' => $name . '.' . $type,
+		'Separator' => $separator,
+		'ImageType' => $type,
+		'ReplaceMedia' => $replace,
+		'KeepOnlyMedia' => $keep,
+		'ID' => $idProduto,
+		'APIresponseSuccess' => $json['IsValid'],
+		'Message' => $json['Errors']
 	));
+
+
 endif;
 
 //print_r($_POST);
