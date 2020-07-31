@@ -96,7 +96,7 @@ switch ($field){
 	//echo $options;   
 	$json = json_decode($result,JSON_PRETTY_PRINT);
 
-/*
+
 	echo json_encode(array(
 		'Name' => $name,
 		'FileName' => $name . '.' . $type,
@@ -108,9 +108,9 @@ switch ($field){
 		'APIresponseSuccess' => $json['IsValid'],
 		'Message' => $json['Errors']
 	));
-*/
 
-echo json_encode(array( $data));
+
+
 
 endif;
 
