@@ -37,7 +37,7 @@ switch ($field){
 			$data =  json_encode(
 						array (
 							'ProductID' => 0,
-							'IntegrationID' => "$idProduto",
+							'IntegrationID' => "P_ " . $idProduto,
 							'Image' => 
 							array (
 							'EncodedBase64File' => 
@@ -76,7 +76,7 @@ switch ($field){
 
  if (isset($_POST)) :
    
-    $url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
+    $url = 'https://pontodaporcelana.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
     //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
