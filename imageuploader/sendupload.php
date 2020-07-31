@@ -10,7 +10,7 @@ $type1 = $_POST['type'];
 $type = str_replace('image/','',$type1);
 $name = str_replace($type,'',$_POST['name']);
 $idProduto = strstr($name, $separator, true);
-$idProduto = '"' . $idProduto . '"';
+$idProduto = '"P_' . $idProduto . '"';
 
 
 $field = $_POST['field']; 
