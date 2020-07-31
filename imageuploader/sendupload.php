@@ -110,7 +110,7 @@ switch ($field){
 	));
 */
 
-echo $data;
+echo json_encode(array( $data));
 
 endif;
 
