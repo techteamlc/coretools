@@ -8,6 +8,8 @@ body {
     left: 0;
     margin-top: 2px;
     visibility: hidden; }
+  body .hide {
+    display: none; }
   body h1 {
     border-bottom: 1px dashed #f2f2f2;
     padding-bottom: 10px;
@@ -33,6 +35,8 @@ body {
       flex: 0 0 500px;
       max-width: 500px;
       margin-right: 20px; }
+    body .row .col.col-photos {
+      min-width: 300px; }
   body .box {
     background-color: white;
     box-shadow: 0px 10px 20px -5px rgba(0, 0, 0, 0.1);
@@ -45,9 +49,9 @@ body {
       text-transform: uppercase; }
     body .box small {
       color: #999; }
-    body .box.box-photos {
+    body .box.box-callback, body .box.box-photos {
       border-style: dashed;
-      padding: 40px; }
+      padding: 40px 20px; }
   body form {
     margin: 0; }
   body label {
@@ -68,17 +72,32 @@ body {
   body input[type="radio"],
   body input[type="checkbox"] {
     vertical-align: top; }
-  body #photos div {
-    padding: 5px 5px 5px 20px;
-    position: relative; }
-    body #photos div:not(:last-child) {
-      border-bottom: 1px solid #f2f2f2; }
-    body #photos div.loading .spinner {
-      visibility: visible; }
+  body #photos {
+    max-height: 185px;
+    overflow: auto; }
+    body #photos::-webkit-scrollbar, body #photos::-webkit-scrollbar-track {
+      background-color: #a6a6a6; }
+    body #photos::-webkit-scrollbar {
+      width: 6px; }
+    body #photos::-webkit-scrollbar-thumb {
+      background-color: #333; }
+    body #photos div {
+      padding: 5px 5px 5px 20px;
+      position: relative; }
+      body #photos div:not(:last-child) {
+        border-bottom: 1px solid #f2f2f2; }
+      body #photos div.loading .spinner {
+        visibility: visible; }
   body .success {
     color: green; }
   body .error {
     color: red; }
+  body .box-photos .progress,
+  body .box-photos .total {
+    border-top: 1px solid #DDD;
+    padding-top: 10px;
+    margin-top: 10px;
+    text-align: center; }
   body #login {
     position: fixed;
     width: 250px;
@@ -157,3 +176,13 @@ body {
 .shake {
   display: inline-block;
   animation: shake .3s infinite; }
+
+body::-webkit-scrollbar,
+body::-webkit-scrollbar-track {
+  background-color: #a6a6a6; }
+
+body::-webkit-scrollbar {
+  width: 6px; }
+
+body::-webkit-scrollbar-thumb {
+  background-color: #333; }

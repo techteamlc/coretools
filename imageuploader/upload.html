@@ -68,6 +68,20 @@
                         <div id="photos">
                             <small class="empty">selecione as imagens que deseja fazer o upload</small>
                         </div>
+                        <!--
+                        <div class="total hide">
+                            <em></em> fotos
+                        </div>
+                        -->
+                        <div class="progress hide">
+                            enviando <em class="from"></em> de <em class="to"></em>
+                        </div>
+                    </div>
+                    <div class="box box-callback">
+                        <strong>Mensagens</strong>
+                        <div id="callback">
+                            <small class="empty">...</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,10 +120,18 @@
                         let file = files[k];
                         $('#photos').append(`<div class="${slugify(i.name)}"><span class="spinner"></span>${i.name}</div>`);
                     });
+                    //$('.box-photos .total em').text(files.length);
+                    //$('.box-photos .total').show();
                 });
 
                 $('#formUpload').on('submit', function(e) {
                     e.preventDefault();
+                    $('#callback').empty();
+                    $('#photos > div').removeClass('success error');
+
+                    $('.box-photos .progress .from').text('1');
+                    $('.box-photos .progress .to').text($('#photos > div').length);
+                    $('.box-photos .progress').show();
                    
                     let files = $('#upload')[0].files,
                         keep = $('[name="keep"]:checked').val(),
@@ -147,11 +169,22 @@
                                     $(`div.${name}`).addClass('loading');
                                 }
                             }).done( (response) => {
-                                $(`div.${response.name}`).addClass('success');
+                                if (response.hasOwnProperty('APIresponseSuccess')) {
+                                    if (response.APIresponseSuccess) {
+                                        $(`div.${response.Name}`).addClass('success');
+                                    } else {
+                                        $(`div.${response.Name}`).addClass('error');
+                                        $('#callback').append(`<div>Erro na imagem ${response.Filename}</div>`);
+                                    }
+                                } else {
+                                    $('#callback').append(`<div>Erro na imagem ${name}</div>`);
+                                }
                             }).fail( (error) => {
-                                $(`div.${error.name}`).addClass('error');
+                                $(`div.${name}`).addClass('error');
+                                $('#callback').append(`<div>Erro na imagem ${name}</div>`);
                             }).always( () => {
                                 $(`div.${name}`).removeClass('loading');
+                                $('.box-photos .progress .from').text($('#photos > div.error,#photos > div.success').length);
                             });
                         }
                         fileReader.readAsDataURL(file)
