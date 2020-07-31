@@ -10,6 +10,7 @@ $type1 = $_POST['type'];
 $type = str_replace('image/','',$type1);
 $name = str_replace($type,'',$_POST['name']);
 $idProduto = strstr($name, $separator, true);
+$idProduto = '"' . $idProduto . '"';
 
 
 $field = $_POST['field']; 
@@ -37,7 +38,7 @@ switch ($field){
 			$data =  json_encode(
 						array (
 							'ProductID' => 0,
-							'IntegrationID' => '"P_" . $idProduto',
+							'IntegrationID' => "$idProduto",
 							'Image' => 
 							array (
 							'EncodedBase64File' => 
