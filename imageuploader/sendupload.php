@@ -38,7 +38,7 @@ switch ($field){
 			$data =  json_encode(
 						array (
 							'ProductID' => 0,
-							'IntegrationID' => "$idProduto",
+							'IntegrationID' => $idProduto,
 							'Image' => 
 							array (
 							'EncodedBase64File' => 
