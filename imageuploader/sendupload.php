@@ -77,7 +77,7 @@ switch ($field){
 
  if (isset($_POST)) :
    
-    $url = 'https://pontodaporcelana.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
+    $url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
     //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
@@ -91,10 +91,15 @@ switch ($field){
 	    )
 	);
 	$context  = stream_context_create($options);
-	$result = file_get_contents($url, false, $context);
+	$result = @file_get_contents($url, false, $context);
 
 	//echo $options;   
 	$json = json_decode($result,JSON_PRETTY_PRINT);
+
+	if (!isset($json['IsValid']) || is_null($json['IsValid'])) :
+		$file = './logs/log_' . date('Ymd') . '.txt';
+		file_put_contents($file, date('d/m/Y H:i:s') . ' - Erro no arquivo: ' . $name . PHP_EOL, FILE_APPEND);
+	endif;
 
 
 	echo json_encode(array(
