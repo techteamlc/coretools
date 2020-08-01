@@ -53,7 +53,9 @@ var sendMedia = function(idx, config) {
             $('#callback').append(`<div>Erro na imagem ${name}</div>`);
         }).always( () => {
             $(`div.${name}`).removeClass('loading');
-            $('.box-photos .progress .from').text($('#photos > div.error,#photos > div.success').length);
+            let processed = $('#photos > div.error,#photos > div.success').length;
+            $('.box-photos .progress .from').text(processed);
+            $('.box-photos .progress .bar span').css('width', (100 * processed)/totalFiles + '%');
 
             sendMedia(idx + 1, config);
         });
@@ -90,6 +92,8 @@ $(function() {
         $('.box-photos .progress .from').text('1');
         $('.box-photos .progress .to').text($('#photos > div').length);
         $('.box-photos .progress').show();
+
+        $('.box-photos .progress .bar span').css('width', '0%');
        
         var keep = $('[name="keep"]:checked').val(),
             replace = $('[name="replace"]:checked').val(),
