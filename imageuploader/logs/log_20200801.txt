@@ -101,3 +101,4 @@
 01/08/2020 13:12:35 - Erro no arquivo: tvg_sjpg
 01/08/2020 13:12:36 - Erro no arquivo: tvg_tjpg
 01/08/2020 13:12:37 - Erro no arquivo: tvg_zjpg
+01/08/2020 13:22:32 - Erro no arquivo: tp_mjpg
