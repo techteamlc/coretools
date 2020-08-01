@@ -106,7 +106,8 @@ body {
     top: 100px;
     left: 50%;
     margin-left: -125px;
-    z-index: 2; }
+    z-index: 2;
+    visibility: hidden; }
     body #login input,
     body #login button {
       width: 100%; }
@@ -134,7 +135,7 @@ body {
     body #login.loading button {
       pointer-events: none;
       background-color: rgba(65, 30, 90, 0.9); }
-  body.no-auth:before {
+  body.loading:before, body.no-auth:before {
     content: '';
     position: fixed;
     display: block;
@@ -144,8 +145,10 @@ body {
     left: 0;
     top: 0;
     z-index: 1; }
-  body.no-auth #content {
+  body.loading #content, body.no-auth #content {
     filter: blur(2px); }
+  body.no-auth #login {
+    visibility: visible; }
 
 .spinner {
   border: 2px solid rgba(0, 0, 0, 0.1);

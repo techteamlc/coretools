@@ -10,7 +10,7 @@ var sendMedia = function(idx, config) {
     if (idx >= files.length) {
         return;
     }
-    
+
     const fileReader = new FileReader();
     let file = files[idx];
 
@@ -65,6 +65,12 @@ let totalFiles = 0,
     files;
 
 $(function() {
+    if (localStorage.getItem('_imgup_u') == null || localStorage.getItem('_imgup_p') == null) {
+        $('body').addClass('no-auth');
+    } else {
+        
+    }
+    $('body').removeClass('loading');
     $('#upload').change(function() {
         $('#photos').empty();
         let files = $('#upload')[0].files;
