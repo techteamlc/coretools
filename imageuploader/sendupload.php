@@ -97,7 +97,7 @@ switch ($field){
 	$json = json_decode($result,JSON_PRETTY_PRINT);
 
 	if (!isset($json['IsValid']) || is_null($json['IsValid'])) :
-		$file = './logs/log_' . date('Ymd') . '.txt';
+		$file = './log/log_' . date('Ymd') . '.txt';
 		file_put_contents($file, date('d/m/Y H:i:s') . ' - Erro no arquivo: ' . $name . PHP_EOL, FILE_APPEND);
 	endif;
 
