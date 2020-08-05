@@ -40,9 +40,9 @@ var sendMedia = function(idx, config) {
         }).done( (response) => {
             if (response.hasOwnProperty('APIresponseSuccess')) {
                 if (response.APIresponseSuccess) {
-                    $(`div.${response.Name}`).addClass('success');
+                    $(`div.${name}`).addClass('success');
                 } else {
-                    $(`div.${response.Name}`).addClass('error');
+                    $(`div.${name}`).addClass('error');
                     $('#callback').append(`<div>Erro na imagem ${response.FileName}</div>`);
                 }
             } else {

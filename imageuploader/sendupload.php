@@ -10,7 +10,7 @@ $type1 = $_POST['type'];
 $type = str_replace('image/','',$type1);
 $name = str_replace($type,'',$_POST['name']);
 $idProduto = strstr($name, $separator, true);
-$idProduto = 'P_' . $idProduto;
+//$idProduto = 'P_' . $idProduto;
 
 
 $field = $_POST['field']; 
@@ -91,7 +91,7 @@ switch ($field){
 	    )
 	);
 	$context  = stream_context_create($options);
-	$result = @file_get_contents($url, false, $context);
+	$result = file_get_contents($url, false, $context);
 
 	//echo $options;   
 	$json = json_decode($result,JSON_PRETTY_PRINT);
