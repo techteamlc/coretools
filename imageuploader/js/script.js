@@ -5,7 +5,13 @@ var slugify = function(text) {
         .replace(/[^\w-]+/g,'');
 };
 
-var sendMedia = function(idx, config) {
+var getParameters = function(param) {
+    let url = new URL(window.location.href);
+    return url.searchParams.get(param);
+};
+
+const THREADS = getParameters('threads') != null ? Number(getParameters('threads')) : 1;
+var sendMedia = function(idx, config, multiple = THREADS) {
 
     if (idx >= files.length) {
         return;
@@ -57,7 +63,7 @@ var sendMedia = function(idx, config) {
             $('.box-photos .progress .from').text(processed);
             $('.box-photos .progress .bar span').css('width', (100 * processed)/totalFiles + '%');
 
-            sendMedia(idx + 1, config);
+            sendMedia(idx + multiple, config);
         });
     }
     
@@ -104,13 +110,14 @@ $(function() {
         totalFiles = files.length;
 
         //$.each(files, function(k, i) {
-
-            sendMedia(0, {
+        for (let x = 0; x < THREADS; x++) {
+            sendMedia(x, {
                 keep,
                 replace,
                 field,
                 separator
             });
+        }
             
         //});
     });
