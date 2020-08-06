@@ -5,7 +5,7 @@ function saveCatalogMedia($data) {
 	
 	global $name, $type, $separator, $replace, $keep, $idProduto;
 
-	$url = 'https://aexclusivacolchoes.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
+	$url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
     //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
