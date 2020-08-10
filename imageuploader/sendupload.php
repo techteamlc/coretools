@@ -45,6 +45,24 @@ function saveCatalogMedia($data) {
 
 $img = str_replace('data:image/jpeg;base64,','',$_POST['base64']);
 
+// obtem o nome do arquivo para ser usado expressão regular para obter os dados do produto da API
+$name = $_POST['name'];
+preg_match_all($pattern, $name, $matches);
+/*  Relação de Match
+print_r($matches);
+echo('Nome: ' . $matches[0][0] . '     ');
+echo('Codigo Produto: ' . $matches[1][0] . '    ');
+echo('Separador: ' . $matches[2][0] . '    ');
+echo('Posição da imagem: ' . $matches[3][0] . '    ');
+*/
+
+//adicionado variaveis aos resultados da expresão regular
+$img_name = $matches[0][0];
+$img_id = $matches[1][0];
+$img_separator = $matches[2][0];
+$img_position = $matches[3][0];
+
+
 $replace = isset($_POST['replace']);
 $keep = isset($_POST['keep']);
 $separator = $_POST['separator'];
