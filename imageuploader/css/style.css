@@ -105,6 +105,19 @@ body {
     padding-top: 10px;
     margin-top: 10px;
     text-align: center; }
+  body .box-photos .progress .bar {
+    margin-top: 10px;
+    height: 5px;
+    background-color: rgba(65, 30, 90, 0.2);
+    position: relative; }
+    body .box-photos .progress .bar span {
+      transition: width .5s ease-in-out;
+      background-color: #411E5A;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 5px;
+      width: 0%; }
   body #login {
     position: fixed;
     width: 250px;

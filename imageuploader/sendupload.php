@@ -119,8 +119,8 @@ switch ($field){
 	    break;
 } 
 //echo $img;
-
- if (isset($_POST) && $field != 'SkuID') :
+$return = '';
+if (isset($_POST) && $field != 'SkuID') :
  
 	$return = saveCatalogMedia($data);
 	echo json_encode($return);

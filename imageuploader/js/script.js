@@ -11,16 +11,29 @@ var getParameters = function(param) {
 };
 
 const THREADS = getParameters('threads') != null ? Number(getParameters('threads')) : 1;
-var sendMedia = function(idx, config, multiple = THREADS) {
 
-    if (idx >= files.length) {
+let orderGroup   = 0,
+    totalFiles   = 0,
+    orderControl = [],
+    orderFiles   = [],
+    checkUpload  = 0;
+
+
+var sendMedia = function(idx, config, pos, multiple = THREADS) {
+
+    if (checkUpload == orderFiles[pos].length) {
+        orderGroup++;
+        checkUpload = 0;
+        $.publish('/run/' + orderControl[orderGroup], { pos: orderControl[orderGroup] });
         return;
     }
 
     const fileReader = new FileReader();
-    let file = files[idx];
+    let file = orderFiles[pos][idx];
 
-    fileReader.readAsDataURL(file);
+    if (file != undefined) {
+        fileReader.readAsDataURL(file);
+    }
     
     fileReader.onloadend = function() {
         let name = slugify(file.name);
@@ -44,6 +57,8 @@ var sendMedia = function(idx, config, multiple = THREADS) {
                 $(`div.${name}`).addClass('loading');
             }
         }).done( (response) => {
+            console.log('enviou a ' + name);
+            checkUpload++;
             if (response.hasOwnProperty('APIresponseSuccess')) {
                 if (response.APIresponseSuccess) {
                     $(`div.${name}`).addClass('success');
@@ -54,23 +69,21 @@ var sendMedia = function(idx, config, multiple = THREADS) {
             } else {
                 $('#callback').append(`<div>Erro na imagem ${name}</div>`);
             }
+            sendMedia(idx + multiple, config, pos);
         }).fail( (error) => {
             $(`div.${name}`).addClass('error');
             $('#callback').append(`<div>Erro na imagem ${name}</div>`);
+            sendMedia(idx + multiple, config, pos);
         }).always( () => {
             $(`div.${name}`).removeClass('loading');
             let processed = $('#photos > div.error,#photos > div.success').length;
             $('.box-photos .progress .from').text(processed);
             $('.box-photos .progress .bar span').css('width', (100 * processed)/totalFiles + '%');
-
-            sendMedia(idx + multiple, config);
         });
     }
     
 };
 
-let totalFiles = 0,
-    files;
 
 $(function() {
     if (localStorage.getItem('_imgup_u') == null || localStorage.getItem('_imgup_p') == null) {
@@ -86,12 +99,19 @@ $(function() {
             let file = files[k];
             $('#photos').append(`<div class="${slugify(i.name)}"><span class="spinner"></span>${i.name}</div>`);
         });
-        //$('.box-photos .total em').text(files.length);
-        //$('.box-photos .total').show();
     });
 
     $('#formUpload').on('submit', function(e) {
         e.preventDefault();
+        
+        /**
+         * reseta controles
+         */
+        orderFiles   = [];
+        orderControl = [];
+        orderGroup   = 0;
+        checkUpload  = 0;
+
         $('#callback').empty();
         $('#photos > div').removeClass('success error');
 
@@ -109,17 +129,55 @@ $(function() {
         files = $('#upload')[0].files;
         totalFiles = files.length;
 
-        //$.each(files, function(k, i) {
-        for (let x = 0; x < THREADS; x++) {
-            sendMedia(x, {
-                keep,
-                replace,
-                field,
-                separator
+        /**
+         * monta os grupos ordenados
+         */
+        $.each($('#upload')[0].files, (k,i) => {
+            let parts = i.name.split(separator);
+            let pos = Number(parts[parts.length - 1].split('.')[0]);
+            if ($.inArray(pos, orderControl) == -1) {
+                orderControl.push(Number(pos));
+                orderFiles.push(pos);
+                orderFiles[pos] = [];
+            }
+            orderFiles[pos].push(i);
+        });
+
+        /**
+         * ordena os grupos
+         */
+        orderControl.sort(function(a, b){
+            if(a < b) { return -1; }
+            if(a > b) { return 1; }
+            return 0;
+        });        
+
+        for (let x = 0; x < orderControl.length; x++) { // varre as raias
+            let pos = orderControl[x];
+            $.unsubscribe('/run/' + pos); // remove registro de eventos anteriores
+            $.subscribe('/run/' + pos, function(e, args) { // registra evento para rodar grupo a grupo
+                let limit = orderFiles[pos].length;
+                if (limit > THREADS) {
+                    limit = THREADS;
+                }
+                for (let z = 0; z < limit; z++) { // executa o limite de threads
+                    sendMedia(z, {
+                        keep,
+                        replace,
+                        field,
+                        separator
+                    },
+                    args.pos);
+                }
             });
         }
-            
-        //});
+        
+        /**
+         * publica o primeiro evento - primeiro grupo
+         */
+        $.publish('/run/' + orderControl[orderGroup], { 
+            pos: orderControl[orderGroup] 
+        });
     });
 
     $('#formLogin').on('submit', function(e) {
