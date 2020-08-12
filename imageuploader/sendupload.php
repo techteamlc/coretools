@@ -4,13 +4,16 @@ header('Content-Type: application/json');
 function saveCatalogMedia($data) {
 	
 	global $name, $type, $separator, $replace, $keep, $idProduto;
+	$login = $_POST['user'];
+	$pass = $_POST['pass'];
+	$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
 
 	$url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
     //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
 	    	'header' => array( 
-	            'Authorization: Basic aW1hZ2UudXBsb2FkZXI6MTIz',
+	            'Authorization: Basic ' . $b64auth,
 	            'Accept: application/json', 
 	            'Content-Type: application/json'
 	        ),
