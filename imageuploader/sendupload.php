@@ -47,6 +47,7 @@ $img = str_replace('data:image/jpeg;base64,','',$_POST['base64']);
 
 // obtem o nome do arquivo para ser usado expressão regular para obter os dados do produto da API
 $name = $_POST['name'];
+$pattern = '/(\d+|\w+)(\S)(\d+)/m';
 preg_match_all($pattern, $name, $matches);
 /*  Relação de Match
 print_r($matches);
@@ -62,17 +63,17 @@ $img_id = $matches[1][0];
 $img_separator = $matches[2][0];
 $img_position = $matches[3][0];
 
-
+$idProduto = $img_id;
 $replace = isset($_POST['replace']);
 $keep = isset($_POST['keep']);
-$separator = $_POST['separator'];
+$separator = $img_separator;
 $type1 = $_POST['type'];
 $type = str_replace('image/','',$type1);
-$name = str_replace($type,'',$_POST['name']);
+//$name = str_replace($type,'',$_POST['name']);
 if ($separator == '') :
-	$idProduto = $name;
+	$idProduto = $img_name;
 else : 
-	$idProduto = strstr($name, $separator, true);
+	$idProduto = $idProduto;
 endif;
 //$idProduto = 'P_' . $idProduto;
 
@@ -87,7 +88,7 @@ switch ($field){
 							array (
 							'EncodedBase64File' => 
 							array (
-								'FileName' => $_POST['name'],
+								'FileName' => "$img_name",
 								'ContentFileEncodedBase64' => $img,
 								'ContentType' => "$type",
 							),
@@ -106,7 +107,7 @@ switch ($field){
 							array (
 							'EncodedBase64File' => 
 							array (
-								'FileName' => $_POST['name'],
+								'FileName' => "$img_name",
 								'ContentFileEncodedBase64' => $img,
 								'ContentType' => "$type",
 							),
@@ -125,7 +126,7 @@ switch ($field){
 					array (
 					'EncodedBase64File' => 
 					array (
-						'FileName' => $_POST['name'],
+						'FileName' => "$img_name",
 						'ContentFileEncodedBase64' => $img,
 						'ContentType' => "$type",
 					),
