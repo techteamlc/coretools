@@ -121,23 +121,26 @@ switch ($field){
 					);
 		break;			
 		case "SkuID":
-			$data =  json_encode(array(
-				array (
-					'ProductID' => 0,
-					'IntegrationID' => $_POST['name'],
-					'Image' => 
-					array (
-					'EncodedBase64File' => 
-					array (
-						'FileName' => "$img_name",
-						'ContentFileEncodedBase64' => $img,
-						'ContentType' => "$type",
-					),
-					),
-					'KeepOnlyMedia' => $keep,
-					'ReplaceExistingMedia' => $replace,
-				)
-			));
+			$login = $_POST['user'];
+			$pass =  $_POST['pass'];
+			$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));	
+			$data = json_encode(
+						array (
+							'ProductID' => GetProductSku($idProduto, $b64auth),
+							'IntegrationID' => null,
+							'Image' => 
+							array (
+							'EncodedBase64File' => 
+							array (
+								'FileName' => "$img_name",
+								'ContentFileEncodedBase64' => $img,
+								'ContentType' => "$type",
+							),
+							),
+							'KeepOnlyMedia' => $keep,
+							'ReplaceExistingMedia' => $replace,
+						)
+					);
 	    break;
 } 
 //echo $img;
