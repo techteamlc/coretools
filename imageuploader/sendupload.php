@@ -1,4 +1,5 @@
 <?php 
+include 'getproductsku.php';
 header('Content-Type: application/json');
 
 function saveCatalogMedia($data) {
