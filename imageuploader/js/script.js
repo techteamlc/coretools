@@ -10,6 +10,7 @@ var getParameters = function(param) {
     return url.searchParams.get(param);
 };
 
+const URL_SERVICE = 'https://coretools.tech/coretools/imageuploader/';
 const THREADS = getParameters('threads') != null ? Number(getParameters('threads')) : 1;
 
 let orderGroup   = 0,
@@ -40,7 +41,7 @@ var sendMedia = function(idx, config, pos, multiple = THREADS) {
         let name = slugify(file.name);
 
         $.ajax({
-            url: './sendupload.php',
+            url: URL_SERVICE + 'sendupload.php',
             type: 'post',
             data: {
                 tenant: tenant,
@@ -82,7 +83,7 @@ var sendMedia = function(idx, config, pos, multiple = THREADS) {
             $('.box-photos .progress .from').text(processed);
             $('.box-photos .progress .bar span').css('width', (100 * processed)/totalFiles + '%');
         });
-    }
+    };
     
 };
 
@@ -191,7 +192,7 @@ $(function() {
         e.preventDefault();
         let data = $(this).serialize();
         $.ajax({
-            url: './checkcredential.php',
+            url: URL_SERVICE + 'checkcredential.php',
             type: 'post',
             data: data,
             beforeSend: () => {
