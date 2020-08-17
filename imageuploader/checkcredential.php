@@ -16,8 +16,8 @@ $tenant = $_POST['tenant'];
 	            'Accept: application/json', 
 	            'Content-Type: application/json'
 	        ),
-	        'method'  => 'POST'
-	        
+			'method'  => 'POST',
+			'content' => '{}'	        
 	    )
 	);
 	$context  = stream_context_create($options);
