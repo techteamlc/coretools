@@ -17,7 +17,7 @@ $b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
 	            'Accept: application/json', 
 	            'Content-Type: application/json'
 	        ),
-	        'method'  => 'GET'
+	        'method'  => 'POST'
 	        
 	    )
 	);
