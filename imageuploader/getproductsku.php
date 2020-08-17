@@ -5,7 +5,7 @@ function GetProductSku($sku, $b64auth, $tenant) {
 
 $sku = $sku;
 $b64auth = $b64auth;
-$tenant = $tenant
+$tenant = $tenant;
 
 $data = json_encode(
 			array (
