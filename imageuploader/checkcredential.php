@@ -15,8 +15,7 @@ $b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
 	    	'header' => array( 
 				'Authorization: Basic ' . $b64auth,
 	            'Accept: application/json', 
-				'Content-Type: application/json',
-				'User-Agent': 'PostmanRuntime/7.26.3'
+	            'Content-Type: application/json'
 	        ),
 	        'method'  => 'POST'
 	        
