@@ -8,7 +8,6 @@ $b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
  if (isset($_POST)) :
    
 	$url = 'https://'.$tenant.'.layer.core.dcg.com.br/v1/Mashup/API.svc/web/CheckCredentials';
-	echo ($url);
     
 	$options = array(
 	    'http' => array(
