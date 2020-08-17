@@ -16,7 +16,8 @@ let orderGroup   = 0,
     totalFiles   = 0,
     orderControl = [],
     orderFiles   = [],
-    checkUpload  = 0;
+    checkUpload  = 0,
+    tenant;
 
 
 var sendMedia = function(idx, config, pos, multiple = THREADS) {
@@ -42,6 +43,7 @@ var sendMedia = function(idx, config, pos, multiple = THREADS) {
             url: './sendupload.php',
             type: 'post',
             data: {
+                tenant: tenant,
                 user: localStorage.getItem('_imgup_u'),
                 pass: localStorage.getItem('_imgup_p'),
                 field: config.field,
@@ -103,6 +105,11 @@ $(function() {
 
     $('#formUpload').on('submit', function(e) {
         e.preventDefault();
+
+        /**
+         * seta o tenant
+         */
+        tenant = $('[name="tenant"]').val();
         
         /**
          * reseta controles
