@@ -1,10 +1,11 @@
 <?php 
 header('Content-Type: application/json');
 
-function GetProductSku($sku, $b64auth) { 
+function GetProductSku($sku, $b64auth, $tenant) { 
 
 $sku = $sku;
 $b64auth = $b64auth;
+$tenant = $tenant
 
 $data = json_encode(
 			array (
@@ -18,7 +19,7 @@ $data = json_encode(
         );
  if ($data != '') :
    
-    $url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SearchProduct';
+    $url = 'https://'.$tenant.'.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SearchProduct';
     
 	$options = array(
 	    'http' => array(

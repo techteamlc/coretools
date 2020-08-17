@@ -8,8 +8,9 @@ function saveCatalogMedia($data) {
 	$login = $_POST['user'];
 	$pass = $_POST['pass'];
 	$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
+	$tenant = $_POST['tenant'];
 
-	$url = 'https://helpdesk.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
+	$url = 'https://'.$tenant.'.layer.core.dcg.com.br/v1/Catalog/API.svc/web/SaveCatalogMedia';
     //$data = '{"ProductID": "103", "IntegrationID": null, "Image": { "EncodedBase64File": {"FileName": "'.$_POST['name'].'", "ContentFileEncodedBase64": "'.$img.'", "ContentType": "jpeg"} },"KeepOnlyMedia": true, "ReplaceExistingMedia": true}';
 	$options = array(
 	    'http' => array(
@@ -124,10 +125,11 @@ switch ($field){
 		case "SkuID":
 			$login = $_POST['user'];
 			$pass =  $_POST['pass'];
-			$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));	
+			$b64auth = base64_encode(sprintf('%s:%s', $login, $pass));
+			$tenant = $_POST['tenant'];	
 			$data = json_encode(
 						array (
-							'ProductID' => GetProductSku($idProduto, $b64auth),
+							'ProductID' => GetProductSku($idProduto, $b64auth, $tenant),
 							'IntegrationID' => null,
 							'Image' => 
 							array (
